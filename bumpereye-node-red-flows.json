@@ -1,0 +1,490 @@
+[
+    {
+        "id": "df31e2af14bee458",
+        "type": "tab",
+        "label": "Image Recognition",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "91250e92ee73991b",
+        "type": "tab",
+        "label": "Diagnostics",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "450bf36e39cef8e6",
+        "type": "ui_tab",
+        "name": "Bumper Eye",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "1e1a2ec9529968b3",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "ab4209722f523aef",
+        "type": "ui_group",
+        "name": "Bumper Eye",
+        "tab": "450bf36e39cef8e6",
+        "order": 1,
+        "disp": true,
+        "width": "20",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "cf2e8a48e385b897",
+        "type": "inject",
+        "z": "df31e2af14bee458",
+        "name": "Sensor simulation",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "43dd2103a6f2c858"
+            ]
+        ]
+    },
+    {
+        "id": "43dd2103a6f2c858",
+        "type": "http request",
+        "z": "df31e2af14bee458",
+        "name": "Snap picture",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://192.168.0.64:88/cgi-bin/CGIProxy.fcgi?cmd=snapPicture2&usr=smartaccess&pwd=12!SAylsAM",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "38f0d26aad837031"
+            ]
+        ]
+    },
+    {
+        "id": "e8350297b5fc118d",
+        "type": "http request",
+        "z": "df31e2af14bee458",
+        "name": "Send image",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.66:3000/api/plates/recognize",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "msg",
+                "valueValue": "headers[\"Content-Type\"]"
+            },
+            {
+                "keyType": "Authorization",
+                "keyValue": "",
+                "valueType": "msg",
+                "valueValue": "headers.Authorization"
+            }
+        ],
+        "x": 1010,
+        "y": 80,
+        "wires": [
+            [
+                "879a1b2c5f1465b3"
+            ]
+        ]
+    },
+    {
+        "id": "879a1b2c5f1465b3",
+        "type": "debug",
+        "z": "df31e2af14bee458",
+        "name": "Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "926320980e38ea3e",
+        "type": "jwt sign",
+        "z": "df31e2af14bee458",
+        "name": "JWT Token",
+        "alg": "HS256",
+        "exp": "3601",
+        "jwkurl": "",
+        "jwkkid": "",
+        "secret": "c6bc685865d8c732a5aa521d21728e3e6f17e36754cc997d7e8e170667259d2bf743cd095060d7a4bebe12ed1382d6f86cfb8ab5183a217447a7cbf49a685734",
+        "key": "",
+        "signvar": "token",
+        "storetoken": "token",
+        "x": 650,
+        "y": 80,
+        "wires": [
+            [
+                "267f13280cce392c"
+            ]
+        ]
+    },
+    {
+        "id": "38f0d26aad837031",
+        "type": "template",
+        "z": "df31e2af14bee458",
+        "name": "Create Claims",
+        "field": "token",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"id\":\"fake-device-id\"}",
+        "output": "json",
+        "x": 480,
+        "y": 80,
+        "wires": [
+            [
+                "926320980e38ea3e"
+            ]
+        ]
+    },
+    {
+        "id": "267f13280cce392c",
+        "type": "function",
+        "z": "df31e2af14bee458",
+        "name": "Prepare form-data",
+        "func": "msg.payload = {\n    file: {\n        value : msg.payload,\n        options : {\n            filename : 'image.jpg',\n            contentType : 'image/jpg'\n            }\n        }\n};\n\nmsg.headers = {\n    \"Authorization\": `Bearer ${msg.token}`,\n    \"Content-Type\": \"multipart/form-data\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 80,
+        "wires": [
+            [
+                "e8350297b5fc118d"
+            ]
+        ]
+    },
+    {
+        "id": "84a68c1091cb7e31",
+        "type": "comment",
+        "z": "df31e2af14bee458",
+        "name": "Image Recognition Flow",
+        "info": "",
+        "x": 140,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ba7723ae68e625e9",
+        "type": "ping",
+        "z": "91250e92ee73991b",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "App ping",
+        "host": "192.168.1.66",
+        "timer": "2",
+        "inputs": 0,
+        "x": 100,
+        "y": 100,
+        "wires": [
+            [
+                "c9bb979c9f3ba90d"
+            ]
+        ]
+    },
+    {
+        "id": "c9bb979c9f3ba90d",
+        "type": "debug",
+        "z": "91250e92ee73991b",
+        "name": "ping response",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d0a19dcd409cba1f",
+        "type": "file",
+        "z": "91250e92ee73991b",
+        "name": "Save picture",
+        "filename": "/home/bumpereye/Desktop/test/img.jpg",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 450,
+        "y": 280,
+        "wires": [
+            [
+                "0d1f549e8a651bf2"
+            ]
+        ]
+    },
+    {
+        "id": "0d1f549e8a651bf2",
+        "type": "debug",
+        "z": "91250e92ee73991b",
+        "name": "Buffer return",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "77f211120a956d91",
+        "type": "inject",
+        "z": "91250e92ee73991b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 280,
+        "wires": [
+            [
+                "8b51f1eb59bf7bea"
+            ]
+        ]
+    },
+    {
+        "id": "8b51f1eb59bf7bea",
+        "type": "http request",
+        "z": "91250e92ee73991b",
+        "name": "Snap picture",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "http://192.168.0.64:88/cgi-bin/CGIProxy.fcgi?cmd=snapPicture2&usr=smartaccess&pwd=12!SAylsAM",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 270,
+        "y": 280,
+        "wires": [
+            [
+                "d0a19dcd409cba1f"
+            ]
+        ]
+    },
+    {
+        "id": "f8515572a6df96e2",
+        "type": "ping",
+        "z": "91250e92ee73991b",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "Camera ping",
+        "host": "192.168.0.64",
+        "timer": "2",
+        "inputs": 0,
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "d07b80d133f91d00"
+            ]
+        ]
+    },
+    {
+        "id": "d07b80d133f91d00",
+        "type": "debug",
+        "z": "91250e92ee73991b",
+        "name": "ping response",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "d2886430a8fe1c31",
+        "type": "comment",
+        "z": "91250e92ee73991b",
+        "name": "Ping check",
+        "info": "",
+        "x": 100,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "9d95693b8fe4c156",
+        "type": "comment",
+        "z": "91250e92ee73991b",
+        "name": "Save picture locally",
+        "info": "",
+        "x": 130,
+        "y": 220,
+        "wires": []
+    }
+]
