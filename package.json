@@ -1,1 +1,12 @@
-
+{
+  "name": "bumpereye-nodered",
+  "description": "A Node-RED Project",
+  "version": "0.0.1",
+  "dependencies": {},
+  "node-red": {
+    "settings": {
+      "flowFile": "capture_image.json",
+      "credentialsFile": "capture_image_cred.json"
+    }
+  }
+}
