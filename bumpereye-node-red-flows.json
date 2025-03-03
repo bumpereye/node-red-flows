@@ -156,7 +156,7 @@
         "y": 80,
         "wires": [
             [
-                "43dd2103a6f2c858"
+                "308a268e5b826b8c"
             ]
         ]
     },
@@ -176,11 +176,11 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 310,
+        "x": 830,
         "y": 80,
         "wires": [
             [
-                "38f0d26aad837031"
+                "e0178ed89f2e9787"
             ]
         ]
     },
@@ -213,8 +213,8 @@
                 "valueValue": "headers.Authorization"
             }
         ],
-        "x": 1010,
-        "y": 80,
+        "x": 590,
+        "y": 140,
         "wires": [
             [
                 "879a1b2c5f1465b3"
@@ -234,8 +234,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1180,
-        "y": 80,
+        "x": 760,
+        "y": 140,
         "wires": []
     },
     {
@@ -251,30 +251,11 @@
         "key": "",
         "signvar": "token",
         "storetoken": "token",
-        "x": 650,
-        "y": 80,
+        "x": 190,
+        "y": 140,
         "wires": [
             [
                 "267f13280cce392c"
-            ]
-        ]
-    },
-    {
-        "id": "38f0d26aad837031",
-        "type": "template",
-        "z": "df31e2af14bee458",
-        "name": "Create Claims",
-        "field": "token",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{\"id\":\"fake-device-id\"}",
-        "output": "json",
-        "x": 480,
-        "y": 80,
-        "wires": [
-            [
-                "926320980e38ea3e"
             ]
         ]
     },
@@ -290,8 +271,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 830,
-        "y": 80,
+        "x": 390,
+        "y": 140,
         "wires": [
             [
                 "e8350297b5fc118d"
@@ -307,6 +288,104 @@
         "x": 140,
         "y": 40,
         "wires": []
+    },
+    {
+        "id": "308a268e5b826b8c",
+        "type": "exec",
+        "z": "df31e2af14bee458",
+        "command": "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2 | head -c -1",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Get Serial Raspberry Pi",
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "9d233da56e21d19a"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9d233da56e21d19a",
+        "type": "change",
+        "z": "df31e2af14bee458",
+        "name": "Change to msg.serial",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "serial",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 80,
+        "wires": [
+            [
+                "43dd2103a6f2c858"
+            ]
+        ]
+    },
+    {
+        "id": "e0178ed89f2e9787",
+        "type": "function",
+        "z": "df31e2af14bee458",
+        "name": "Prepare device form",
+        "func": "msg.token = {id : msg.serial}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 80,
+        "wires": [
+            [
+                "9cef757aad248ab6"
+            ]
+        ]
+    },
+    {
+        "id": "9cef757aad248ab6",
+        "type": "link out",
+        "z": "df31e2af14bee458",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "70d0b1e202930e26"
+        ],
+        "x": 1195,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "70d0b1e202930e26",
+        "type": "link in",
+        "z": "df31e2af14bee458",
+        "name": "link in 1",
+        "links": [
+            "9cef757aad248ab6"
+        ],
+        "x": 55,
+        "y": 140,
+        "wires": [
+            [
+                "926320980e38ea3e"
+            ]
+        ]
     },
     {
         "id": "ba7723ae68e625e9",
